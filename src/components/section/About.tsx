@@ -169,7 +169,7 @@ const About = () => {
               <div className="hero-buttons flex justify-start gap-3 mt-4">
                 <button
                   className="hero-action-btn text-sm md:text-base px-4 py-2 md:px-5 md:py-2.5"
-                  onClick={() => window.open('public/resume.pdf', '_blank')}
+                  onClick={() => window.open('/resume.pdf', '_blank')}
                 >
                   Resume →
                 </button>
