@@ -23,10 +23,7 @@ const Navigation = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Check if scrolled
       setIsScrolled(window.scrollY > 10);
-
-      // Update active tab
       const sections = tabs.map(tab => tab.id);
       const currentSection = sections.find(section => {
         const element = document.getElementById(section);
@@ -36,17 +33,11 @@ const Navigation = () => {
         }
         return false;
       });
-
-      if (currentSection) {
-        setActiveTab(currentSection);
-      }
+      if (currentSection) setActiveTab(currentSection);
     };
 
     const handleResize = () => {
-      // Close mobile menu if screen becomes desktop size
-      if (window.innerWidth >= 768 && isMobileMenuOpen) {
-        setIsMobileMenuOpen(false);
-      }
+      if (window.innerWidth >= 768 && isMobileMenuOpen) setIsMobileMenuOpen(false);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -58,28 +49,17 @@ const Navigation = () => {
   }, [tabs, isMobileMenuOpen]);
 
   const scrollToSection = (sectionId: string) => {
-    // If we're not on the home page, navigate there first
     if (location.pathname !== '/') {
       navigate('/', { replace: true });
-      // Wait for navigation and then scroll
       setTimeout(() => {
         const element = document.getElementById(sectionId);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
+        if (element) element.scrollIntoView({ behavior: 'smooth' });
       }, 100);
     } else {
-      // We're already on the home page, just scroll
       const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
+      if (element) element.scrollIntoView({ behavior: 'smooth' });
     }
-    setIsMobileMenuOpen(false); // Close mobile menu after navigation
-  };
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -104,20 +84,28 @@ const Navigation = () => {
           ${withAlpha(isDarkMode ? themeColors.colors.dark[900] : themeColors.colors.pink[25], isScrolled ? 0.7 : 0.5)})`
       }}>
       <div className="nav-container">
-        <button className="signature-name"
-          style={{ 
-            cursor: 'pointer', 
-            color: themeColors.colors.pink[500], 
-            background: 'none', 
+        {/* Brand name - fixed to "Salma Sherif" */}
+        <button
+          className="signature-name"
+          style={{
+            cursor: 'pointer',
+            background: 'none',
             border: 'none',
             outline: 'none',
-            WebkitTextFillColor: themeColors.colors.pink[500]
+            padding: 0,
+            fontFamily: 'inherit',
+            fontSize: 'clamp(1rem, 2vw, 1.25rem)',
+            fontWeight: '700',
+            letterSpacing: '0.02em',
+            color: isDarkMode ? themeColors.colors.pink[300] : themeColors.colors.pink[500],
+            WebkitTextFillColor: isDarkMode ? themeColors.colors.pink[300] : themeColors.colors.pink[500],
           }}
           onClick={() => window.location.href = '/'}
-          aria-label="My Portfolio - Go to homepage">
-          My Portfolio
+          aria-label="Salma Sherif - Go to homepage"
+        >
+          Salma Sherif
         </button>
-        
+
         {/* Desktop Navigation */}
         <div className="nav-tabs desktop-nav">
           {tabs.map((tab) => (
@@ -132,17 +120,14 @@ const Navigation = () => {
             </button>
           ))}
           <div className="ml-4">
-            <DarkModeToggle
-              checked={isDarkMode}
-              onChange={toggleDarkMode}
-            />
+            <DarkModeToggle checked={isDarkMode} onChange={toggleDarkMode} />
           </div>
         </div>
 
         {/* Mobile Menu Button */}
         <button
           className="mobile-menu-btn relative"
-          onClick={toggleMobileMenu}
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={isMobileMenuOpen}
           style={{
@@ -157,28 +142,15 @@ const Navigation = () => {
           }}
         >
           <div style={{ position: 'relative', width: '24px', height: '24px' }}>
-            <Menu
-              size={24}
-              style={{
-                position: 'absolute',
-                transition: 'opacity 0.3s ease',
-                opacity: isMobileMenuOpen ? 0 : 1
-              }}
-            />
-            <X
-              size={24}
-              style={{
-                position: 'absolute',
-                transition: 'opacity 0.3s ease',
-                opacity: isMobileMenuOpen ? 1 : 0
-              }}
-            />
+            <Menu size={24} style={{ position: 'absolute', transition: 'opacity 0.3s ease', opacity: isMobileMenuOpen ? 0 : 1 }} />
+            <X size={24} style={{ position: 'absolute', transition: 'opacity 0.3s ease', opacity: isMobileMenuOpen ? 1 : 0 }} />
           </div>
         </button>
       </div>
 
       {/* Mobile Navigation Menu */}
-      <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`}
+      <div
+        className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`}
         style={{
           position: 'absolute',
           top: '100%',
@@ -192,9 +164,7 @@ const Navigation = () => {
           overflow: isMobileMenuOpen ? 'visible' : 'hidden',
           transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
           opacity: isMobileMenuOpen ? 1 : 0,
-          boxShadow: isMobileMenuOpen
-            ? `0 8px 25px ${themeColors.navigation.shadowScrolled}`
-            : 'none',
+          boxShadow: isMobileMenuOpen ? `0 8px 25px ${themeColors.navigation.shadowScrolled}` : 'none',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
         }}
@@ -206,20 +176,13 @@ const Navigation = () => {
             className={`mobile-nav-tab ${activeTab === tab.id ? 'active' : ''}`}
             style={{
               background: activeTab === tab.id
-                ? withAlpha(
-                    isDarkMode ? themeColors.colors.pink[50] : themeColors.colors.pink[50],
-                    isDarkMode ? 0.05 : 0.8
-                  )
+                ? withAlpha(isDarkMode ? themeColors.colors.pink[50] : themeColors.colors.pink[50], isDarkMode ? 0.05 : 0.8)
                 : 'none',
-              border: activeTab === tab.id
-                ? `1px solid ${themeColors.colors.pink[200]}`
-                : '1px solid transparent',
+              border: activeTab === tab.id ? `1px solid ${themeColors.colors.pink[200]}` : '1px solid transparent',
               borderRadius: '12px',
               padding: '0.875rem 1.25rem',
               textAlign: 'left',
-              color: activeTab === tab.id
-                ? themeColors.colors.pink[500]
-                : themeColors.text.accent,
+              color: activeTab === tab.id ? themeColors.colors.pink[500] : themeColors.text.accent,
               fontWeight: activeTab === tab.id ? '600' : '500',
               fontSize: '1rem',
               cursor: 'pointer',
@@ -232,21 +195,6 @@ const Navigation = () => {
               alignItems: 'center',
               outline: 'none',
               width: '100%'
-            }}
-            onMouseEnter={(e) => {
-              if (activeTab !== tab.id) {
-                e.currentTarget.style.background = withAlpha(
-                  themeColors.colors.pink[50],
-                  isDarkMode ? 0.03 : 0.5
-                );
-                e.currentTarget.style.borderColor = themeColors.colors.pink[200];
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (activeTab !== tab.id) {
-                e.currentTarget.style.background = 'none';
-                e.currentTarget.style.borderColor = 'transparent';
-              }
             }}
             onFocus={(e) => e.currentTarget.blur()}
             aria-label={`Navigate to ${tab.label} section`}
@@ -262,17 +210,12 @@ const Navigation = () => {
             opacity: isMobileMenuOpen ? 1 : 0,
             transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
             transitionDelay: isMobileMenuOpen ? '0.4s' : '0s',
-            position: 'relative',
-            zIndex: 10,
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
           }}
         >
-          <DarkModeToggle
-            checked={isDarkMode}
-            onChange={toggleDarkMode}
-          />
+          <DarkModeToggle checked={isDarkMode} onChange={toggleDarkMode} />
         </div>
       </div>
     </nav>
