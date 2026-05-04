@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#003366" />
+      <stop offset="100%" stop-color="#00b3ff" />
+    </linearGradient>
+  </defs>
+  <rect width="160" height="160" rx="24" fill="url(#grad)" />
+  <path d="M40 54h80v16H40z" fill="#fff" opacity="0.9" />
+  <path d="M40 82h80v16H40z" fill="#fff" opacity="0.75" />
+  <path d="M40 110h80v16H40z" fill="#fff" opacity="0.6" />
+  <text x="80" y="50" text-anchor="middle" font-family="Inter, sans-serif" font-size="18" fill="#fff" font-weight="700">NTI</text>
+  <text x="80" y="96" text-anchor="middle" font-family="Inter, sans-serif" font-size="16" fill="#003366" font-weight="700">Big Data</text>
+  <text x="80" y="118" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#003366">Engineering</text>
+</svg>
